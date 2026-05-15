@@ -541,7 +541,8 @@ def sync_runtime_base(target_dir: Path, base_dir: Path, runtime_channel: str) ->
         if item.name in {"Scripts", "bin"}:
             sync_runtime_scripts(target_dir / item.name, item)
             continue
-        copy_runtime_item(item, target_dir / item.name)
+        if item.is_dir():
+            copy_runtime_item(item, target_dir / item.name)
 
     base_metadata = read_runtime_metadata(base_dir)
     (target_dir / "video_sum_runtime.json").write_text(
